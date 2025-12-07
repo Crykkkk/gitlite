@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <cstdint>
 #include <iomanip>
+#include <ctime>
 
 namespace SHA1 {
     class SHA {
@@ -42,11 +43,11 @@ public:
     static const int UID_LENGTH = 40;
 
     // SHA-1 hash functions
-    static std::string sha1(const std::string& s1);
-    static std::string sha1(const std::string& s1, const std::string& s2);
-    static std::string sha1(const std::string& s1, const std::string& s2, 
+    static std::string sha1(const std::string& s1); // 这几个 sha 就是普通sha，
+    static std::string sha1(const std::string& s1, const std::string& s2); // 两个string（实际上提示了 blobs 的头和内容）
+    static std::string sha1(const std::string& s1, const std::string& s2, // 四个string （提示了 commit 的 parent, author, date, message）
                           const std::string& s3, const std::string& s4);
-    static std::string sha1(const std::vector<unsigned char>& data);
+    static std::string sha1(const std::vector<unsigned char>& data); // vuc（提示了序列化后的内容）
 
     // File operations
     static bool restrictedDelete(const std::string& filepath);
@@ -62,6 +63,7 @@ public:
 
     // Serialization (simplified for basic types)
     static std::vector<unsigned char> serialize(const std::string& obj);
+    // 别的东西需要自己生成，但其实并不复杂，要么就是直接 tostring，要么写个函数然后慢慢搞
 
     // Message and error reporting
     static void message(const std::string& msg);
@@ -72,6 +74,9 @@ public:
     static bool isFile(const std::string& path);
     static bool isDirectory(const std::string& path);
     static bool createDirectories(const std::string& path);
+
+    // ADD: a time stamp formating helper function
+    static std::string format_time(std::time_t timestamp);
 };
 
 #endif // UTILS_H

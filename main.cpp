@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "include/SomeObj.h"
 #include "include/Repository.h"
 #include "include/Utils.h"
 
@@ -11,7 +10,7 @@ void checkCWD() {
     }
 }
 
-void checkNoArgs(const std::vector<std::string>& args) {
+void checkNoArgs(const std::vector<std::string>& args) { // 这两个都是自己就会完成exit的check函数
     if (args.empty()) {
         Utils::exitWithMessage("Please enter a command.");
     }
@@ -30,13 +29,14 @@ int main(int argc, char* argv[]) {
     }
     
     checkNoArgs(args);
-    SomeObj bloop;
+    Repository bloop;
     std::string firstArg = args[0];
     
     if (firstArg == "init") {
         checkArgsNum(args, 1);
         bloop.init();
-    } else if (firstArg == "add-remote") {
+    } 
+    else if (firstArg == "add-remote") {
         checkCWD();
         checkArgsNum(args, 3);
         bloop.addRemote(args[1], args[2]);
@@ -117,7 +117,8 @@ int main(int argc, char* argv[]) {
         checkCWD();
         checkArgsNum(args, 3);
         bloop.pull(args[1], args[2]);
-    } else {
+    }
+    else {
         std::cout << "No command with that name exists." << std::endl;
         return 0;
     }

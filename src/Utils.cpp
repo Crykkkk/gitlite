@@ -285,7 +285,7 @@ std::vector<unsigned char> Utils::serialize(const std::string& obj) {
 
 /** Print a message composed from MSG and ARGS as for the String.format
  *  method, followed by a newline. */
-void Utils::message(const std::string& msg) {
+void Utils::message(const std::string& msg) { // 这两个方法提供了输出信息手段
     std::cout << msg << std::endl;
 }
 
@@ -322,8 +322,8 @@ bool Utils::isDirectory(const std::string& path) {
  *  Returns true if all directories were created or already exist,
  *  false otherwise. */
 bool Utils::createDirectories(const std::string& path) {
-    if (path.empty()) return true;
-    if (isDirectory(path)) return true;
+    if (path.empty()) return true; // 空路径秒了
+    if (isDirectory(path)) return true; // 路径对了秒了
     
     size_t pos = path.find_last_of("/\\");
     if (pos != std::string::npos) {
@@ -334,4 +334,14 @@ bool Utils::createDirectories(const std::string& path) {
     }
     
     return mkdir(path.c_str(), 0755) == 0 || isDirectory(path);
+}
+
+// helper functions
+std::string formatTime(std::time_t timestamp) {
+   // 从 time_t 转为北京时间的 helper function
+   char buffer[100];
+   std::tm* tm_info = std::localtime(&timestamp);
+   std::strftime(buffer, sizeof(buffer), "%a %b %d %H:%M:%S %Y %z", tm_info);
+
+   return std::string(buffer);
 }
