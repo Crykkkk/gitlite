@@ -6,15 +6,28 @@
 #include "Commit.h"
 #include "Blob.h"
 #include <ctime>
+#include "Index.h"
 using std::string;
 
 class Repository{
    private:
-      std::string CUR_DIR;
-      std::string GIT_DIR;
+      // Directory: index: 
+      //    file: stage_add 代表 add 的文件名和 blob 的关系
+      //    file: stage_remove 代表待删除的文件名，由 rm 造成
+      // Directory: branches: 代表不同的 branch 所对应的 commit 记录（以 hash 表示）
+      // Directory: blobs: add 后出现，add 一并更新staging area，此处保存 blobs
+      // Directory: commits：分散的 commit，文件名为其 hash
+      // file：head 直接记录当前 branch（默认）
+      string CUR_DIR;
+      string GIT_DIR;
+      string INDEX_DIR;
+      string BLOBS_DIR;
+      string COMMITS_DIR;
+      string BRANCHES_DIR;
+      string HEAD_PATH;
    public:
       // 基本函数
-      Repository() = default;
+      Repository(); // 这个是需要实现的，因为除了init之外新建的Repo也不认识这些DIR 
       ~Repository() = default;
 
       // git函数
@@ -51,7 +64,16 @@ class Repository{
       void fetch(const string& remotename, const string& rm_branch);
       void pull(const string& remotename, const string& rm_branch);
 
-      // 静态函数
+      // 静态函数 & helpers
+      static std::string getWorkingDir();
       static std::string getGitliteDir();
+      static std::string getCommitsDir();
+      static std::string getBranchesDir();
+      static std::string getIndexDir();
+      static std::string getBlobsDir();
+      static std::string getHeadsPath();
+      static string getHeadbranch();
+      static string getHeadhash();
+      static void rewriteHead(const string& branchname);
 };
 #endif // REPOSITORY_H
