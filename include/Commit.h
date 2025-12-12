@@ -23,7 +23,7 @@ class Commit{
       ~Commit() = default;
 
       void save_commit(); // 保存commit
-      const std::map<string, string>& check_map();
+      std::map<string, string>& check_map();
 
       // Commit 的序列化与反序列化（只计算，不写入）
       static std::vector<unsigned char> commit_serial(const Commit& cmt);

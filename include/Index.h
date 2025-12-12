@@ -1,5 +1,6 @@
 #ifndef INDEX_H
 #define INDEX_H
+#include "Blob.h"
 #include "Utils.h"
 #include <string>
 #include <map>
@@ -16,7 +17,5 @@ public:
 
     void readFromDisk(); // 从 .gitlite/index 读取
     void writeToDisk();  // 写入 index
-    void add(string filename, string blobHash); // 读 -> 改 -> 写套装
-    void remove(string filename);
 };
 #endif

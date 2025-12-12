@@ -1,0 +1,29 @@
+
+# Consider dependencies only in project.
+set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
+
+# The set of languages for which implicit dependencies are needed:
+set(CMAKE_DEPENDS_LANGUAGES
+  )
+
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/xflops/work_area/gitlite/main.cpp" "CMakeFiles/gitlite.dir/main.cpp.o" "gcc" "CMakeFiles/gitlite.dir/main.cpp.o.d"
+  "/home/xflops/work_area/gitlite/src/Blob.cpp" "CMakeFiles/gitlite.dir/src/Blob.cpp.o" "gcc" "CMakeFiles/gitlite.dir/src/Blob.cpp.o.d"
+  "/home/xflops/work_area/gitlite/src/Commit.cpp" "CMakeFiles/gitlite.dir/src/Commit.cpp.o" "gcc" "CMakeFiles/gitlite.dir/src/Commit.cpp.o.d"
+  "/home/xflops/work_area/gitlite/src/GitliteException.cpp" "CMakeFiles/gitlite.dir/src/GitliteException.cpp.o" "gcc" "CMakeFiles/gitlite.dir/src/GitliteException.cpp.o.d"
+  "/home/xflops/work_area/gitlite/src/Index.cpp" "CMakeFiles/gitlite.dir/src/Index.cpp.o" "gcc" "CMakeFiles/gitlite.dir/src/Index.cpp.o.d"
+  "/home/xflops/work_area/gitlite/src/Repository.cpp" "CMakeFiles/gitlite.dir/src/Repository.cpp.o" "gcc" "CMakeFiles/gitlite.dir/src/Repository.cpp.o.d"
+  "/home/xflops/work_area/gitlite/src/Utils.cpp" "CMakeFiles/gitlite.dir/src/Utils.cpp.o" "gcc" "CMakeFiles/gitlite.dir/src/Utils.cpp.o.d"
+  )
+
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_LINKED_INFO_FILES
+  )
+
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_FORWARD_LINKED_INFO_FILES
+  )
+
+# Fortran module output directory.
+set(CMAKE_Fortran_TARGET_MODULE_DIR "")

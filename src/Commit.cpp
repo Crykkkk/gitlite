@@ -6,7 +6,7 @@
 #include <vector>
 // p.s. 如果只需要用静态函数就在cpp include，在头文件include会循环引用
 
-Commit::Commit(string father, string mess):father_hash(father), message(mess){
+Commit::Commit(string father, string mess):father_hash(father), message(mess), second_parent_hash(""){
    if (father_hash == "") {
       time_stamp = 0;
       file_blob_map = {};
@@ -19,7 +19,7 @@ Commit::Commit(string father, string mess):father_hash(father), message(mess){
    }
 }
 
-const std::map<string, string>& Commit::check_map(){
+std::map<string, string>& Commit::check_map(){
    return file_blob_map;
 }
 

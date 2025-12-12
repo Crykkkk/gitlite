@@ -34,8 +34,70 @@ void Repository::init() {
 
 void Repository::add(const string& filename){
    // 在工作目录下找到文件并变成blob（注：blob已经实现了报错）
+   Blob target_file = Blob(filename);
    Index index;
    index.readFromDisk();
+   // 下面进行 add 逻辑
+   if (index.removed.count(filename)) index.removed.erase(filename);
+
+   Commit curr_cm = getHeadCommit();
+   if (curr_cm.check_map().count(filename) && curr_cm.check_map()[filename] == target_file.Hash) {
+      if (index.added.count(filename)) index.added.erase(filename);
+      index.writeToDisk();
+      return;
+   }
+
+   index.added[filename] = target_file.Hash;
+   target_file.save_blob();
+   
+   index.writeToDisk();
+   return;
+}
+
+void Repository::commit(const string& message) {
+   if (message == "") {
+      Utils::exitWithMessage("Please enter a commit message.");
+   }
+   Index index;
+   index.readFromDisk();
+   // 更新 file blob map
+   if (index.added.empty() && index.removed.empty()) {
+      Utils::exitWithMessage("No changes added to the commit.");
+   }
+
+   Commit my_cm = Commit(getHeadhash(), message);
+   for (auto i : index.added) {
+      my_cm.check_map()[i.first] = i.second;
+   }
+   for (auto i : index.removed) {
+      my_cm.check_map().erase(i);
+   }
+   
+   // save
+   my_cm.save_commit();
+
+   // 清空暂存区
+   index.added.clear();
+   index.removed.clear();
+   index.writeToDisk();
+}
+
+void Repository::rm(const string& filename) {
+   Commit curr_cm = getHeadCommit();
+   Index index;
+   index.readFromDisk();
+   if (!curr_cm.check_map().count(filename) && !index.added.count(filename)) {
+      Utils::exitWithMessage("No reason to remove the file.");
+   }
+   if (index.added.count(filename)) {
+      index.added.erase(filename);
+   }
+   if (curr_cm.check_map().count(filename)) {
+      index.removed.insert(filename);
+      string rm_dir = Utils::join(getWorkingDir(), filename);
+      Utils::restrictedDelete(rm_dir);
+   }
+   index.writeToDisk(); // 怎么老是忘记这行。。
 }
 
 // To be continued......
@@ -74,11 +136,15 @@ string Repository::getHeadbranch() {
    string head_path = getHeadsPath();
    return Utils::readContentsAsString(head_path);
 }
-string Repository::getHeadhash() {
+string Repository::getHeadhash() { // 得到 commit hash
    string target_branch = getHeadbranch();
    string target_hash = Utils::join(getBranchesDir(), target_branch);
    return Utils::readContentsAsString(target_hash);
 }
+Commit Repository::getHeadCommit() {
+   return Commit::commit_deserial(getHeadhash());
+}
+
 void Repository::rewriteHead(const string& branchname) {
    string head_path = getHeadsPath();
    Utils::writeContents(head_path, branchname);
