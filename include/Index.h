@@ -15,6 +15,8 @@ public:
     std::map<string, string> added; // filename -> blob_hash
     std::set<string> removed;       // filename
 
+    Index(): added({}), removed({}) {};
+
     void readFromDisk(); // 从 .gitlite/index 读取
     void writeToDisk();  // 写入 index
 };

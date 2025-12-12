@@ -337,7 +337,7 @@ bool Utils::createDirectories(const std::string& path) {
 }
 
 // helper functions
-std::string formatTime(std::time_t timestamp) {
+std::string Utils::format_time(std::time_t timestamp) {
    // 从 time_t 转为北京时间的 helper function
    char buffer[100];
    std::tm* tm_info = std::localtime(&timestamp);

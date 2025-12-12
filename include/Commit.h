@@ -9,13 +9,15 @@
 using std::string;
 class Commit{
    private:
+      std::map<string, string> file_blob_map; // file hash & blob hash，表示当前跟踪文件，下次commit的时候会先复制这里
+   public:
+      // 还是放这儿吧 qwq
       string father_hash;
       string second_parent_hash; // 默认为空，只有 merge 时有值
       string Hash; // 自己的 hash，方便文件命名
       string message;
       std::time_t time_stamp; // initial commit 的 time stamp 为 0
-      std::map<string, string> file_blob_map; // file hash & blob hash，表示当前跟踪文件，下次commit的时候会先复制这里
-   public:
+
       // basic functions
       Commit() = default;
       Commit(string father, string mess);
@@ -24,6 +26,7 @@ class Commit{
 
       void save_commit(); // 保存commit
       std::map<string, string>& check_map();
+      void show();
 
       // Commit 的序列化与反序列化（只计算，不写入）
       static std::vector<unsigned char> commit_serial(const Commit& cmt);

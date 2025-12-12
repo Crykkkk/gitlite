@@ -39,15 +39,15 @@ class Repository{
       void rm(const string& filename);
 
       // // Subtask 2
-      // void log();
-      // void globalLog(); // 
-      // void find(const string& target_message); // 
+      void log();
+      void globalLog(); 
+      void find(const string& target_message); 
 
       // // Subtask 3 (basic checkout is categorized here for integrity)
-      // void status();
-      // void checkoutBranch(const string& branchname);
-      // void checkoutFile(const string& filename);
-      // void checkoutFileInCommit(const string& abbr_commit, const string& filename);
+      void status();
+      void checkoutBranch(const string& branchname);
+      void checkoutFile(const string& filename);
+      void checkoutFileInCommit(const string& abbr_commit, const string& filename);
 
       // // Subtask 4
       // void branch(const string& branchname);
@@ -76,5 +76,7 @@ class Repository{
       static string getHeadhash();
       static Commit getHeadCommit();
       static void rewriteHead(const string& branchname);
+      static string getBranchhash(const string& branchname);
+      static Commit getBranchCommit(const string & branchname);
 };
 #endif // REPOSITORY_H

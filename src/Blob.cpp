@@ -13,3 +13,9 @@ void Blob::save_blob(){
    string blob_path = Utils::join(Repository::getBlobsDir(), Hash);
    Utils::writeContents(blob_path, content);
 }
+
+string Blob::blob_deserial_content(const string& blobhash) {
+   string blob_path = Utils::join(Repository::getBlobsDir(), blobhash);
+   string file_content = Utils::readContentsAsString(blob_path);
+   return file_content;
+}

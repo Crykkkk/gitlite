@@ -6,7 +6,7 @@
 #include <vector>
 // p.s. 如果只需要用静态函数就在cpp include，在头文件include会循环引用
 
-Commit::Commit(string father, string mess):father_hash(father), message(mess), second_parent_hash(""){
+Commit::Commit(string father, string mess):father_hash(father), message(mess), second_parent_hash(""), Hash(""){
    if (father_hash == "") {
       time_stamp = 0;
       file_blob_map = {};
@@ -79,4 +79,19 @@ Commit Commit::commit_deserial(const std::string Hs){
    // hash本身
    cm.Hash = Hs;
    return cm;
+}
+
+void Commit::show() {
+   std::cout << "===" << std::endl;
+   std::cout << "commit ";
+   if (Hash == "") {
+      std::vector<unsigned char> serial_cm = commit_serial(*this);
+      Hash = Utils::sha1(serial_cm);
+   }
+   std::cout << Hash << std::endl;
+   if (second_parent_hash != "") {
+      std::cout << "Merge: " << father_hash.substr(0,7) << ' ' << second_parent_hash.substr(0, 7) << std::endl;
+   }
+   std::cout << "Date: " << Utils::format_time(time_stamp) << std::endl;
+   std::cout << message << std::endl;
 }
