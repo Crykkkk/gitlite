@@ -383,3 +383,73 @@ Actual: === Branches ===
 === Untracked Files ===
 
 
+samples/5-merge-01.in: 
+merge other: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/5-merge-02.in: 
+merge other: 
+Expected: ['Encountered a merge conflict.']
+Actual: No command with that name exists.
+
+samples/5-merge-03.in: 
+merge other: 
+Expected: ['Encountered a merge conflict.']
+Actual: No command with that name exists.
+
+samples/5-merge-04.in: 
+merge other: 
+Expected: ['Cannot merge a branch with itself.']
+Actual: No command with that name exists.
+
+samples/5-merge-05.in: 
+merge C1: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/5-merge-06.in: 
+merge b1: 
+Expected: ['Given branch is an ancestor of the current branch.']
+Actual: No command with that name exists.
+
+samples/5-merge-07.in: 
+merge master: 
+Expected: ['Encountered a merge conflict.']
+Actual: No command with that name exists.
+
+samples/5-merge-08.in: 
+merge master: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-remote-01.in: 
+add-remote R1 ../D1/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-remote-02.in: 
+add-remote R1 ../D1/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-remote-03.in: 
+add-remote R1 ../Dx/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-status-05.in: 
+status: 
+Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', 'f.txt', '']
+Actual: === Branches ===
+*master
+
+=== Staged Files ===
+
+=== Removed Files ===
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+
+

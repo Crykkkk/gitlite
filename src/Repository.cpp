@@ -249,6 +249,48 @@ void Repository::checkoutFileInCommit(const string& abbr_commit, const string& f
    Utils::exitWithMessage("File does not exist in that commit.");
 }
 
+void Repository::branch(const string& branchname) {
+   string target_path = Utils::join(getBranchesDir(), branchname);
+   if (Utils::isFile(target_path)) {
+      Utils::exitWithMessage("A branch with that name already exists.");
+   }
+   Utils::writeContents(target_path, getHeadhash());
+}
+
+void Repository::rmBranch(const string& branchname) {
+   string target_path = Utils::join(getBranchesDir(), branchname);
+   if (!Utils::isFile(target_path)) {
+      Utils::exitWithMessage("A branch with that name does not exist.");
+   }
+   if (branchname == getHeadbranch()) {
+      Utils::exitWithMessage("Cannot remove the current branch.");
+   }
+   remove(target_path.c_str());
+}
+
+void Repository::reset(const string commitid) {
+   // 检查
+   string check_cm_path = Utils::join(getCommitsDir(), commitid);
+   if (!Utils::isFile(check_cm_path)) {
+      Utils::exitWithMessage("No commit with that id exists.");
+   }
+
+   // 准备
+   string cover_branch = "__gitlite_temp_reset_branch__"; // 工具分支
+   string last_head = getHeadbranch();
+   string cover_path = Utils::join(getBranchesDir(), cover_branch);
+   string last_head_path = Utils::join(getBranchesDir(), last_head);
+
+   // 修改
+   Utils::writeContents(cover_path, commitid);
+   checkoutBranch(cover_branch);
+   
+   // 夺舍
+   rewriteHead(last_head);
+   Utils::writeContents(last_head_path, commitid);
+   rmBranch(cover_branch);
+}
+
 // To be continued......
 
 

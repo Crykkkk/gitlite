@@ -50,9 +50,9 @@ class Repository{
       void checkoutFileInCommit(const string& abbr_commit, const string& filename);
 
       // // Subtask 4
-      // void branch(const string& branchname);
-      // void rmBranch(const string& branchname);
-      // void reset(const string commitid);
+      void branch(const string& branchname);
+      void rmBranch(const string& branchname);
+      void reset(const string commitid);
 
       // // Subtask 5
       // void merge(const string& branchname);

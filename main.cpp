@@ -93,19 +93,20 @@ int main(int argc, char* argv[]) {
             Utils::exitWithMessage("Incorrect operands.");
         }
     } 
-    // else if (firstArg == "branch") {
-    //     checkCWD();
-    //     checkArgsNum(args, 2);
-    //     bloop.branch(args[1]);
-    // } else if (firstArg == "rm-branch") {
-    //     checkCWD();
-    //     checkArgsNum(args, 2);
-    //     bloop.rmBranch(args[1]);
-    // } else if (firstArg == "reset") {
-    //     checkCWD();
-    //     checkArgsNum(args, 2);
-    //     bloop.reset(args[1]);
-    // } else if (firstArg == "merge") {
+    else if (firstArg == "branch") {
+        checkCWD();
+        checkArgsNum(args, 2);
+        bloop.branch(args[1]);
+    } else if (firstArg == "rm-branch") {
+        checkCWD();
+        checkArgsNum(args, 2);
+        bloop.rmBranch(args[1]);
+    } else if (firstArg == "reset") {
+        checkCWD();
+        checkArgsNum(args, 2);
+        bloop.reset(args[1]);
+    } 
+    // else if (firstArg == "merge") {
     //     checkCWD();
     //     checkArgsNum(args, 2);
     //     bloop.merge(args[1]);
