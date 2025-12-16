@@ -1,5 +1,7 @@
 #include "../include/Repository.h"
 #include <algorithm>
+#include <sstream>
+#include <set>
 using std::string;
 using std::cout;
 using std::endl;
@@ -68,6 +70,36 @@ void Repository::commit(const string& message) {
    }
 
    Commit my_cm = Commit(getHeadhash(), message);
+   for (auto i : index.added) {
+      my_cm.check_map()[i.first] = i.second;
+   }
+   for (auto i : index.removed) {
+      my_cm.check_map().erase(i);
+   }
+   
+   // save
+   my_cm.save_commit();
+
+   // 清空暂存区
+   index.added.clear();
+   index.removed.clear();
+   index.writeToDisk();
+}
+
+void Repository::merge_commit(const string& message, const string& extra_father) {
+   if (message == "") {
+      Utils::exitWithMessage("Please enter a commit message.");
+   }
+   Index index;
+   index.readFromDisk();
+   // 更新 file blob map
+   if (index.added.empty() && index.removed.empty()) {
+      Utils::exitWithMessage("No changes added to the commit.");
+   }
+
+   Commit my_cm = Commit(getHeadhash(), message);
+   my_cm.second_parent_hash = extra_father; // 加了这行
+
    for (auto i : index.added) {
       my_cm.check_map()[i.first] = i.second;
    }
@@ -289,6 +321,107 @@ void Repository::reset(const string commitid) {
    rewriteHead(last_head);
    Utils::writeContents(last_head_path, commitid);
    rmBranch(cover_branch);
+}
+
+void Repository::merge(const string& branchname) {
+   // 检查
+   if (branchname == getHeadbranch()) {
+      Utils::exitWithMessage("Cannot merge a branch with itself.");
+   }
+   if (!Utils::isFile(Utils::join(BRANCHES_DIR, branchname))) {
+      Utils::exitWithMessage("A branch with that name does not exist.");
+   }
+   Index index;
+   index.readFromDisk();
+   if (!index.added.empty() || !index.removed.empty()) {
+      Utils::exitWithMessage("You have uncommitted changes.");
+   }
+
+   // Calculate LCA
+   string LCA_hs = Commit::lowest_common_ancestor(getHeadhash(), getBranchhash(branchname));
+   if (LCA_hs == getBranchhash(branchname)) {
+      Utils::exitWithMessage("Given branch is an ancestor of the current branch.");
+   }
+   if (LCA_hs == getHeadhash()) {
+      checkoutBranch(branchname);
+      Utils::exitWithMessage("Current branch fast-forwarded.");
+   }
+
+   // 正经情况 TODO
+   Commit LCA_cm = Commit::commit_deserial(LCA_hs);
+   Commit Curr_cm = getHeadCommit();
+   Commit other_cm = getBranchCommit(branchname);
+
+   // 总文件去重
+   std::set<string> Allfile;
+   for (auto file_pair : LCA_cm.check_map()) {
+      Allfile.insert(file_pair.first);
+   }
+   for (auto file_pair : Curr_cm.check_map()) {
+      Allfile.insert(file_pair.first);
+   }
+   for (auto file_pair : other_cm.check_map()) {
+      Allfile.insert(file_pair.first);
+   }
+
+   // real work!
+   bool conflict = false;
+
+   for (string file : Allfile) {
+      string lca_hash = LCA_cm.check_map().count(file) ? LCA_cm.check_map()[file] : "";
+      string curr_hash = Curr_cm.check_map().count(file) ? Curr_cm.check_map()[file] : "";
+      string other_hash = other_cm.check_map().count(file) ? other_cm.check_map()[file] : "";
+
+      if (lca_hash == curr_hash && lca_hash != other_hash && other_hash != "") {
+         if (curr_hash == "" && Utils::isFile(Utils::join(getWorkingDir(), file))) {
+             Utils::exitWithMessage("There is an untracked file in the way; delete it, or add and commit it first.");
+         }
+      }
+   }
+
+   for (string file : Allfile) {
+      string lca_hash = LCA_cm.check_map().count(file) ? LCA_cm.check_map()[file] : "";
+      string curr_hash = Curr_cm.check_map().count(file) ? Curr_cm.check_map()[file] : "";
+      string other_hash = other_cm.check_map().count(file) ? other_cm.check_map()[file] : "";
+      if (curr_hash == other_hash) continue;
+      else if (lca_hash == curr_hash) {
+         if (other_hash == "") {
+            this->rm(file);
+         }
+         else {
+            if (curr_hash == "" && Utils::isFile(Utils::join(getWorkingDir(), file))) {
+               Utils::exitWithMessage("There is an untracked file in the way; delete it, or add and commit it first.");
+            }
+            checkoutFileInCommit(other_cm.Hash, file);
+            this->add(file);
+         }
+      }
+      else if (lca_hash == other_hash) {
+         continue;
+      }
+      else { // lca_hash != other_hash != curr_hash : conflict
+         conflict = true;
+         std::ostringstream oss;
+         string curr_cnt = ((curr_hash == "") ? "" : Blob::blob_deserial_content(curr_hash));
+         string other_cnt = ((other_hash == "") ? "" : Blob::blob_deserial_content(other_hash));
+         oss << "<<<<<<< HEAD" << endl;
+         oss << curr_cnt;
+         if (curr_cnt != "" && curr_cnt.back() != '\n') oss << endl;
+         oss << "=======" << endl;
+         oss << other_cnt;
+         if (other_cnt != "" && other_cnt.back() != '\n') oss << endl;
+         oss << ">>>>>>>" << endl;
+         string target_file = Utils::join(getWorkingDir(), file);
+         Utils::writeContents(target_file, oss.str());
+         this->add(file);
+      }
+   }
+   
+   if (conflict) std::cout << "Encountered a merge conflict." << std::endl;
+
+   std::ostringstream oss;
+   oss << "Merged " << branchname << " into " << getHeadbranch() << '.';
+   this->merge_commit(oss.str(), other_cm.Hash);
 }
 
 // To be continued......

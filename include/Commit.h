@@ -31,5 +31,8 @@ class Commit{
       // Commit 的序列化与反序列化（只计算，不写入）
       static std::vector<unsigned char> commit_serial(const Commit& cmt);
       static Commit commit_deserial(const std::string Hs); // 这里不能随意返回引用，不然会造成局部变量引用的问题
+
+      // Commit 的 LCA 计算
+      static string lowest_common_ancestor (string first_b, string second_b);
 };
 #endif // COMMIT_H

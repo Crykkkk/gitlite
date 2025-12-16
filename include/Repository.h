@@ -55,7 +55,8 @@ class Repository{
       void reset(const string commitid);
 
       // // Subtask 5
-      // void merge(const string& branchname);
+      void merge(const string& branchname);
+      void merge_commit(const string& message, const string& extra_father);
 
       // // Subtask 6 (Bonus) will I finish these functions? who knows!
       // void addRemote(const string& remotename, const string& remote_dir);

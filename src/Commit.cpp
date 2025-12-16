@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <queue>
 // p.s. 如果只需要用静态函数就在cpp include，在头文件include会循环引用
 
 Commit::Commit(string father, string mess):father_hash(father), message(mess), second_parent_hash(""), Hash(""){
@@ -95,3 +96,51 @@ void Commit::show() {
    std::cout << "Date: " << Utils::format_time(time_stamp) << std::endl;
    std::cout << message << std::endl;
 }
+
+void iter_ancestor (string hs, std::set<string>& ca) {
+   Commit cm = Commit::commit_deserial(hs);
+   if (cm.father_hash != "") {
+      ca.insert(cm.father_hash);
+      iter_ancestor(cm.father_hash, ca);
+   }
+   if (cm.second_parent_hash != "") {
+      ca.insert(cm.second_parent_hash);
+      iter_ancestor(cm.second_parent_hash, ca);
+   }
+}
+
+string Commit::lowest_common_ancestor (string curr_hs, string other_hs) {
+   // 考虑到多个父亲纵横交错的情况，直接使用 BFS 实现罢！
+   // 先记录 curr ancestor
+   std::set<string> curr_ancestor;
+   curr_ancestor.insert(curr_hs);
+   iter_ancestor(curr_hs, curr_ancestor);
+
+   // 通过 BFS 找到最近的共同祖先
+   std::queue<string> other_ancestor;
+   other_ancestor.push(other_hs);
+   while (true) {
+      string hs = other_ancestor.front();
+      if (curr_ancestor.count(hs)) {
+         return hs;
+      }
+      else {
+         other_ancestor.pop();
+         Commit this_cm = commit_deserial(hs);
+         if (this_cm.father_hash != "") {
+            other_ancestor.push(this_cm.father_hash);
+         }
+         if (this_cm.second_parent_hash != "") {
+            other_ancestor.push(this_cm.second_parent_hash);
+         }
+      }
+   }
+}
+   // consider （不是 AIGC !）
+   //    A -----
+   //   / \    |
+   //  B   C --|
+   //   \ /    |
+   //    D     E
+   //    \_____/
+   //       ?

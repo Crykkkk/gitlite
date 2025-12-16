@@ -19,3 +19,13 @@ string Blob::blob_deserial_content(const string& blobhash) {
    string file_content = Utils::readContentsAsString(blob_path);
    return file_content;
 }
+
+Blob::Blob(Commit cm, string filename){
+   target_file = filename;
+   if (!cm.check_map().count(filename)) { // 一般来说不会发生
+      Utils::exitWithMessage("There is no such filename in the given commit");
+   }
+   string blob_path = Utils::join(Repository::getBlobsDir(), cm.check_map()[filename]);
+   content = Utils::readContents(blob_path);
+   Hash = Utils::sha1(content);
+}

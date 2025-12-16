@@ -205,8 +205,9 @@ CMakeFiles/gitlite.dir/src/Index.cpp.o: \
  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
  /usr/include/libintl.h /usr/include/c++/13/bits/locale_facets_nonio.tcc \
  /usr/include/c++/13/bits/locale_conv.h \
- /usr/include/c++/13/bits/quoted_string.h /usr/include/c++/13/map \
- /usr/include/c++/13/bits/stl_tree.h \
+ /usr/include/c++/13/bits/quoted_string.h \
+ /home/xflops/work_area/gitlite/src/../include/Commit.h \
+ /usr/include/c++/13/map /usr/include/c++/13/bits/stl_tree.h \
  /usr/include/c++/13/ext/aligned_buffer.h \
  /usr/include/c++/13/bits/node_handle.h \
  /usr/include/c++/13/bits/stl_map.h \
@@ -215,5 +216,4 @@ CMakeFiles/gitlite.dir/src/Index.cpp.o: \
  /usr/include/c++/13/bits/stl_set.h \
  /usr/include/c++/13/bits/stl_multiset.h \
  /home/xflops/work_area/gitlite/src/../include/Repository.h \
- /home/xflops/work_area/gitlite/src/../include/Commit.h \
  /home/xflops/work_area/gitlite/src/../include/Index.h

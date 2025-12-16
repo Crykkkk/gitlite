@@ -216,4 +216,6 @@ CMakeFiles/gitlite.dir/src/Commit.cpp.o: \
  /home/xflops/work_area/gitlite/src/../include/Blob.h \
  /home/xflops/work_area/gitlite/src/../include/Index.h \
  /usr/include/c++/13/set /usr/include/c++/13/bits/stl_set.h \
- /usr/include/c++/13/bits/stl_multiset.h
+ /usr/include/c++/13/bits/stl_multiset.h /usr/include/c++/13/queue \
+ /usr/include/c++/13/deque /usr/include/c++/13/bits/stl_deque.h \
+ /usr/include/c++/13/bits/deque.tcc /usr/include/c++/13/bits/stl_queue.h

@@ -1,357 +1,58 @@
-samples/2-checkout-02.in: 
-log: 
-Expected: ['===', 'commit ([a-f0-9]+)', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'version 2 of wug.txt', '', '===', 'commit ([a-f0-9]+)', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'version 1 of wug.txt', '', '===', 'commit ([a-f0-9]+)', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
-Actual: ===
-commit 65e573deecacd91a7e2108c2aa9e9ea9c930d746
-Date: Fri Dec 12 16:38:50 2025 +0800
-version 2 of wug.txt
-
-===
-commit 194c5618f5c00875c878c9e8a19ea3ef7b2495e1
-Date: Fri Dec 12 16:38:50 2025 +0800
-version 1 of wug.txt
-
-===
-commit 2e7400e3b2df7d617b90b1113df1428d1fdcba91
-Date: Thu Jan 01 08:00:00 1970 +0800
-Initial message
-
-
-samples/2-find-01.in: 
-log: 
-Expected: ['===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'Two files', '', '===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'Remove one file', '', '===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'Two files', '', '===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
-Actual: ===
-commit 8ca685dce53d97b0eca3bbdde68cc6846c163b02
-Date: Fri Dec 12 16:38:50 2025 +0800
-Two files
-
-===
-commit 6494d29d62f4d8c794c207b1e317aa5fc913fedb
-Date: Fri Dec 12 16:38:50 2025 +0800
-Remove one file
-
-===
-commit 1bda5d854213b8389136774d3cb2a8e2dd275945
-Date: Fri Dec 12 16:38:50 2025 +0800
-Two files
-
-===
-commit 2e7400e3b2df7d617b90b1113df1428d1fdcba91
-Date: Thu Jan 01 08:00:00 1970 +0800
-Initial message
-
-
-samples/2-log.in: 
-log: 
-Expected: ['===', 'commit [a-f0-9]+', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'added wug', '', '===', 'commit [a-f0-9]+', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
-Actual: ===
-commit 86445a1865641793a6acc92ef3f7eadf67bc7f0e
-Date: Fri Dec 12 16:38:50 2025 +0800
-added wug
-
-===
-commit 2e7400e3b2df7d617b90b1113df1428d1fdcba91
-Date: Thu Jan 01 08:00:00 1970 +0800
-Initial message
-
-
-samples/3-checkout-03.in: 
-log: 
-Expected: ['===', 'commit ([a-f0-9]+)', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'version 2 of wug.txt', '', '===', 'commit ([a-f0-9]+)', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'version 1 of wug.txt', '', '===', 'commit ([a-f0-9]+)', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
-Actual: ===
-commit 65e573deecacd91a7e2108c2aa9e9ea9c930d746
-Date: Fri Dec 12 16:38:50 2025 +0800
-version 2 of wug.txt
-
-===
-commit 194c5618f5c00875c878c9e8a19ea3ef7b2495e1
-Date: Fri Dec 12 16:38:50 2025 +0800
-version 1 of wug.txt
-
-===
-commit 2e7400e3b2df7d617b90b1113df1428d1fdcba91
-Date: Thu Jan 01 08:00:00 1970 +0800
-Initial message
-
-
-samples/3-checkout-04.in: 
-log: 
-Expected: ['===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'version 2 of wug.txt', '', '===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'version 1 of wug.txt', '', '===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
-Actual: ===
-commit 65e573deecacd91a7e2108c2aa9e9ea9c930d746
-Date: Fri Dec 12 16:38:50 2025 +0800
-version 2 of wug.txt
-
-===
-commit 194c5618f5c00875c878c9e8a19ea3ef7b2495e1
-Date: Fri Dec 12 16:38:50 2025 +0800
-version 1 of wug.txt
-
-===
-commit 2e7400e3b2df7d617b90b1113df1428d1fdcba91
-Date: Thu Jan 01 08:00:00 1970 +0800
-Initial message
-
-
-samples/3-checkout-05.in: 
-log: 
-Expected: ['===', 'commit ([a-f0-9]{8})[a-f0-9]+', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'version 2 of wug.txt', '', '===', 'commit ([a-f0-9]{8})[a-f0-9]+', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'version 1 of wug.txt', '', '===', 'commit ([a-f0-9]{8})[a-f0-9]+', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
-Actual: ===
-commit 65e573deecacd91a7e2108c2aa9e9ea9c930d746
-Date: Fri Dec 12 16:38:50 2025 +0800
-version 2 of wug.txt
-
-===
-commit 194c5618f5c00875c878c9e8a19ea3ef7b2495e1
-Date: Fri Dec 12 16:38:50 2025 +0800
-version 1 of wug.txt
-
-===
-commit 2e7400e3b2df7d617b90b1113df1428d1fdcba91
-Date: Thu Jan 01 08:00:00 1970 +0800
-Initial message
-
-
-samples/4-branch-01.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-branch-02.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-branch-03.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-find-03.in: 
-log: 
-Expected: ['===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'Remove one file', '', '===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'Two files', '', '===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
-Actual: ===
-commit 6494d29d62f4d8c794c207b1e317aa5fc913fedb
-Date: Fri Dec 12 16:38:50 2025 +0800
-Remove one file
-
-===
-commit 1bda5d854213b8389136774d3cb2a8e2dd275945
-Date: Fri Dec 12 16:38:50 2025 +0800
-Two files
-
-===
-commit 2e7400e3b2df7d617b90b1113df1428d1fdcba91
-Date: Thu Jan 01 08:00:00 1970 +0800
-Initial message
-
-
-samples/4-global-log-02.in: 
-reset 1bda5d854213b8389136774d3cb2a8e2dd275945: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-reset-01.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-reset-02.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-rm-branch-01.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-rm-branch-02.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
 samples/5-merge-01.in: 
-branch other: 
+merge other: 
 Expected: []
-Actual: No command with that name exists.
+Actual: terminate called after throwing an instance of 'std::invalid_argument'
+  what():  must be a normal file
+Aborted (core dumped)
 
 samples/5-merge-02.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
+merge other: 
+Expected: ['Encountered a merge conflict.']
+Actual: terminate called after throwing an instance of 'std::invalid_argument'
+  what():  must be a normal file
+Aborted (core dumped)
 
 samples/5-merge-03.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
+merge other: 
+Expected: ['Encountered a merge conflict.']
+Actual: terminate called after throwing an instance of 'std::invalid_argument'
+  what():  must be a normal file
+Aborted (core dumped)
 
 samples/5-merge-04.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
+merge other: 
+Expected: ['There is an untracked file in the way; delete it, or add and commit it first.']
+Actual: terminate called after throwing an instance of 'std::invalid_argument'
+  what():  must be a normal file
+Aborted (core dumped)
 
 samples/5-merge-05.in: 
-branch B1: 
+merge C1: 
 Expected: []
-Actual: No command with that name exists.
+Actual: terminate called after throwing an instance of 'std::invalid_argument'
+  what():  must be a normal file
+Aborted (core dumped)
 
 samples/5-merge-06.in: 
-branch b1: 
-Expected: []
-Actual: No command with that name exists.
+merge b1: 
+Expected: ['Given branch is an ancestor of the current branch.']
+Actual: terminate called after throwing an instance of 'std::invalid_argument'
+  what():  must be a normal file
+Aborted (core dumped)
 
 samples/5-merge-07.in: 
-branch given: 
-Expected: []
-Actual: No command with that name exists.
+merge master: 
+Expected: ['Encountered a merge conflict.']
+Actual: terminate called after throwing an instance of 'std::invalid_argument'
+  what():  must be a normal file
+Aborted (core dumped)
 
 samples/5-merge-08.in: 
-branch branch1: 
+merge master: 
 Expected: []
-Actual: No command with that name exists.
-
-samples/6-remote-01.in: 
-log: 
-Expected: ['===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'Two files', '', '===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
-Actual: ===
-commit 1bda5d854213b8389136774d3cb2a8e2dd275945
-Date: Fri Dec 12 16:38:50 2025 +0800
-Two files
-
-===
-commit 2e7400e3b2df7d617b90b1113df1428d1fdcba91
-Date: Thu Jan 01 08:00:00 1970 +0800
-Initial message
-
-
-samples/6-remote-02.in: 
-log: 
-Expected: ['===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'Two files', '', '===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
-Actual: ===
-commit 1bda5d854213b8389136774d3cb2a8e2dd275945
-Date: Fri Dec 12 16:38:50 2025 +0800
-Two files
-
-===
-commit 2e7400e3b2df7d617b90b1113df1428d1fdcba91
-Date: Thu Jan 01 08:00:00 1970 +0800
-Initial message
-
-
-samples/6-remote-03.in: 
-log: 
-Expected: ['===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'Two files', '', '===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
-Actual: ===
-commit 1bda5d854213b8389136774d3cb2a8e2dd275945
-Date: Fri Dec 12 16:38:50 2025 +0800
-Two files
-
-===
-commit 2e7400e3b2df7d617b90b1113df1428d1fdcba91
-Date: Thu Jan 01 08:00:00 1970 +0800
-Initial message
-
-
-samples/6-status-05.in: 
-status: 
-Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', 'f.txt', '']
-Actual: === Branches ===
-*master
-
-=== Staged Files ===
-
-=== Removed Files ===
-
-=== Modifications Not Staged For Commit ===
-
-=== Untracked Files ===
-
-
-samples/4-branch-01.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-branch-02.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-branch-03.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-find-03.in: 
-reset 9e5a188881ee24e9386a23f0a3045563df22e1dd: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-global-log-02.in: 
-reset 9e5a188881ee24e9386a23f0a3045563df22e1dd: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-reset-01.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-reset-02.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-rm-branch-01.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-rm-branch-02.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/5-merge-01.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/5-merge-02.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/5-merge-03.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/5-merge-04.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/5-merge-05.in: 
-branch B1: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/5-merge-06.in: 
-branch b1: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/5-merge-07.in: 
-branch given: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/5-merge-08.in: 
-branch branch1: 
-Expected: []
-Actual: No command with that name exists.
+Actual: terminate called after throwing an instance of 'std::invalid_argument'
+  what():  must be a normal file
+Aborted (core dumped)
 
 samples/6-remote-01.in: 
 add-remote R1 ../D1/.gitlite: 
@@ -386,42 +87,415 @@ Actual: === Branches ===
 samples/5-merge-01.in: 
 merge other: 
 Expected: []
-Actual: No command with that name exists.
+Actual: 1
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  must be a normal file
+Aborted (core dumped)
+
+samples/5-merge-01.in: 
+merge other: 
+Expected: []
+Actual: 1
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  must be a normal file
+Aborted (core dumped)
+
+samples/5-merge-01.in: 
+merge other: 
+Expected: []
+Actual: I haven't implement yet
+
+samples/5-merge-01.in: 
+merge other: 
+Expected: []
+Actual: I haven't implement yet
 
 samples/5-merge-02.in: 
 merge other: 
 Expected: ['Encountered a merge conflict.']
-Actual: No command with that name exists.
+Actual: I haven't implement yet
 
 samples/5-merge-03.in: 
 merge other: 
 Expected: ['Encountered a merge conflict.']
-Actual: No command with that name exists.
+Actual: I haven't implement yet
 
 samples/5-merge-04.in: 
 merge other: 
-Expected: ['Cannot merge a branch with itself.']
-Actual: No command with that name exists.
+Expected: ['There is an untracked file in the way; delete it, or add and commit it first.']
+Actual: I haven't implement yet
 
 samples/5-merge-05.in: 
 merge C1: 
 Expected: []
-Actual: No command with that name exists.
+Actual: I haven't implement yet
 
 samples/5-merge-06.in: 
 merge b1: 
 Expected: ['Given branch is an ancestor of the current branch.']
-Actual: No command with that name exists.
+Actual: I haven't implement yet
 
 samples/5-merge-07.in: 
 merge master: 
 Expected: ['Encountered a merge conflict.']
-Actual: No command with that name exists.
+Actual: I haven't implement yet
 
 samples/5-merge-08.in: 
 merge master: 
 Expected: []
+Actual: I haven't implement yet
+
+samples/6-remote-01.in: 
+add-remote R1 ../D1/.gitlite: 
+Expected: []
 Actual: No command with that name exists.
+
+samples/6-remote-02.in: 
+add-remote R1 ../D1/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-remote-03.in: 
+add-remote R1 ../Dx/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-status-05.in: 
+status: 
+Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', 'f.txt', '']
+Actual: === Branches ===
+*master
+
+=== Staged Files ===
+
+=== Removed Files ===
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+
+
+samples/5-merge-01.in: 
+merge other: 
+Expected: []
+Actual: I haven't implement yet
+
+samples/5-merge-02.in: 
+merge other: 
+Expected: ['Encountered a merge conflict.']
+Actual: I haven't implement yet
+
+samples/5-merge-03.in: 
+merge other: 
+Expected: ['Encountered a merge conflict.']
+Actual: I haven't implement yet
+
+samples/5-merge-04.in: 
+merge other: 
+Expected: ['There is an untracked file in the way; delete it, or add and commit it first.']
+Actual: I haven't implement yet
+
+samples/5-merge-05.in: 
+merge C1: 
+Expected: []
+Actual: I haven't implement yet
+
+samples/5-merge-06.in: 
+merge b1: 
+Expected: ['Given branch is an ancestor of the current branch.']
+Actual: I haven't implement yet
+
+samples/5-merge-07.in: 
+merge master: 
+Expected: ['Encountered a merge conflict.']
+Actual: I haven't implement yet
+
+samples/5-merge-08.in: 
+merge master: 
+Expected: []
+Actual: I haven't implement yet
+
+samples/6-remote-01.in: 
+add-remote R1 ../D1/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-remote-02.in: 
+add-remote R1 ../D1/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-remote-03.in: 
+add-remote R1 ../Dx/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-status-05.in: 
+status: 
+Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', 'f.txt', '']
+Actual: === Branches ===
+*master
+
+=== Staged Files ===
+
+=== Removed Files ===
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+
+
+samples/5-merge-01.in: 
+merge other: 
+Expected: []
+Actual: Not done
+
+samples/5-merge-02.in: 
+merge other: 
+Expected: ['Encountered a merge conflict.']
+Actual: Not done
+
+samples/5-merge-03.in: 
+merge other: 
+Expected: ['Encountered a merge conflict.']
+Actual: Not done
+
+samples/5-merge-04.in: 
+merge other: 
+Expected: ['There is an untracked file in the way; delete it, or add and commit it first.']
+Actual: Not done
+
+samples/5-merge-05.in: 
+merge C1: 
+Expected: []
+Actual: Not done
+
+samples/5-merge-07.in: 
+merge master: 
+Expected: ['Encountered a merge conflict.']
+Actual: Not done
+
+samples/5-merge-08.in: 
+merge master: 
+Expected: []
+Actual: Not done
+
+samples/6-remote-01.in: 
+add-remote R1 ../D1/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-remote-02.in: 
+add-remote R1 ../D1/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-remote-03.in: 
+add-remote R1 ../Dx/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-status-05.in: 
+status: 
+Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', 'f.txt', '']
+Actual: === Branches ===
+*master
+
+=== Staged Files ===
+
+=== Removed Files ===
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+
+
+samples/5-merge-01.in: 
+merge other: 
+Expected: []
+Actual: Not done
+
+samples/5-merge-01.in: 
+merge other: 
+Expected: []
+Actual: No commit with that id exists.
+
+samples/5-merge-01.in: 
+log: 
+Expected: ['===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'Merged other into master\\.', '', '(?:(?:.|\\n)*(?:\\n|\\Z)|\\A|\\Z)']
+Actual: ===
+commit f195e6f75998aa30f71b1abb044d108e5f38d401
+Merge: 5cb71bc 22b9cd4
+Date: Tue Dec 16 19:19:14 2025 +0800
+Merged other into master
+
+===
+commit 5cb71bcf90bfc5c3d0f07109f0bca44544e0fbb0
+Date: Tue Dec 16 19:19:14 2025 +0800
+Add h.txt and remove g.txt
+
+===
+commit 729c73172033ba186f67d3bdb90a3a30fec12baa
+Date: Tue Dec 16 19:19:14 2025 +0800
+Two files
+
+===
+commit e90fc6f2c3f379a3112abb6dc158ef1f45d0bd25
+Date: Thu Jan 01 08:00:00 1970 +0800
+initial commit
+
+
+samples/5-merge-04.in: 
+merge other: 
+Expected: ['There is an untracked file in the way; delete it, or add and commit it first.']
+Actual: 
+samples/5-merge-04.in: 
+status: 
+Expected: ['=== Branches ===', '*master', 'other', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', '']
+Actual: === Branches ===
+*master
+other
+
+=== Staged Files ===
+
+=== Removed Files ===
+f.txt
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+
+
+samples/5-merge-04.in: 
+status: 
+Expected: ['=== Branches ===', '*master', 'other', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', '']
+Actual: === Branches ===
+*master
+other
+
+=== Staged Files ===
+
+=== Removed Files ===
+f.txt
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+
+
+samples/6-remote-01.in: 
+add-remote R1 ../D1/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-remote-02.in: 
+add-remote R1 ../D1/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-remote-03.in: 
+add-remote R1 ../Dx/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-status-05.in: 
+status: 
+Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', 'f.txt', '']
+Actual: === Branches ===
+*master
+
+=== Staged Files ===
+
+=== Removed Files ===
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+
+
+samples/5-merge-03.in: 
+merge other: 
+Expected: ['Encountered a merge conflict.']
+Actual: terminate called after throwing an instance of 'std::invalid_argument'
+  what():  must be a normal file
+Aborted (core dumped)
+
+samples/5-merge-04.in: 
+status: 
+Expected: ['=== Branches ===', '*master', 'other', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', '']
+Actual: === Branches ===
+*master
+other
+
+=== Staged Files ===
+
+=== Removed Files ===
+f.txt
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+
+
+samples/6-remote-01.in: 
+add-remote R1 ../D1/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-remote-02.in: 
+add-remote R1 ../D1/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-remote-03.in: 
+add-remote R1 ../Dx/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-status-05.in: 
+status: 
+Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', 'f.txt', '']
+Actual: === Branches ===
+*master
+
+=== Staged Files ===
+
+=== Removed Files ===
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+
+
+samples/6-remote-01.in: 
+add-remote R1 ../D1/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-remote-02.in: 
+add-remote R1 ../D1/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-remote-03.in: 
+add-remote R1 ../Dx/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-status-05.in: 
+status: 
+Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', 'f.txt', '']
+Actual: === Branches ===
+*master
+
+=== Staged Files ===
+
+=== Removed Files ===
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+
 
 samples/6-remote-01.in: 
 add-remote R1 ../D1/.gitlite: 
