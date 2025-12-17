@@ -25,6 +25,7 @@ class Repository{
       string COMMITS_DIR;
       string BRANCHES_DIR;
       string HEAD_PATH;
+      string REMOTE_DIR;
    public:
       // 基本函数
       Repository(); // 这个是需要实现的，因为除了init之外新建的Repo也不认识这些DIR 
@@ -59,25 +60,27 @@ class Repository{
       void merge_commit(const string& message, const string& extra_father);
 
       // // Subtask 6 (Bonus) will I finish these functions? who knows!
-      // void addRemote(const string& remotename, const string& remote_dir);
-      // void rmRemote(const string& remotename);
-      // void push(const string& remotename, const string& rm_branch);
-      // void fetch(const string& remotename, const string& rm_branch);
-      // void pull(const string& remotename, const string& rm_branch);
+      void addRemote(const string& remotename, const string& remote_dir);
+      void rmRemote(const string& remotename);
+      void push(const string& remotename, const string& rm_branch);
+      void fetch(const string& remotename, const string& rm_branch);
+      void pull(const string& remotename, const string& rm_branch);
 
       // 静态函数 & helpers
       static std::string getWorkingDir();
-      static std::string getGitliteDir();
-      static std::string getCommitsDir();
-      static std::string getBranchesDir();
-      static std::string getIndexDir();
-      static std::string getBlobsDir();
-      static std::string getHeadsPath();
+      static std::string getGitliteDir(string root = "");
+      static std::string getCommitsDir(string root = "");
+      static std::string getBranchesDir(string root = "");
+      static std::string getIndexDir(string root = "");
+      static std::string getBlobsDir(string root = "");
+      static std::string getHeadsPath(string root = "");
+      static std::string getRemotePath(string root = "");
       static string getHeadbranch();
       static string getHeadhash();
       static Commit getHeadCommit();
       static void rewriteHead(const string& branchname);
       static string getBranchhash(const string& branchname);
       static Commit getBranchCommit(const string & branchname);
+      static void copyObject(string hash, string src, string dest);
 };
 #endif // REPOSITORY_H

@@ -34,6 +34,16 @@ void Commit::save_commit(){
    Utils::writeContents(target_path, Hash);
 }
 
+void Commit::save_commit(const string& rcommit_path){
+   std::vector<unsigned char> serial_cm = commit_serial(*this);
+   Hash = Utils::sha1(serial_cm);
+   string commit_path = Utils::join(rcommit_path, Hash);
+   Utils::writeContents(commit_path, serial_cm);
+   string head = Repository::getHeadbranch();
+   string target_path = Utils::join(Repository::getBranchesDir(), head);
+   Utils::writeContents(target_path, Hash);
+}
+
 std::vector<unsigned char> Commit::commit_serial(const Commit& cmt) { // 只计算，不写入
    std::ostringstream oss;
    oss << "---Metadata---" << '\n';

@@ -25,6 +25,7 @@ class Commit{
       ~Commit() = default;
 
       void save_commit(); // 保存commit
+      void save_commit(const string& rcommit_path); // 针对remote，手动调整保存路径
       std::map<string, string>& check_map();
       void show();
 

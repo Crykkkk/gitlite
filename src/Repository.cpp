@@ -1,5 +1,6 @@
 #include "../include/Repository.h"
 #include <algorithm>
+#include <filesystem>
 #include <sstream>
 #include <set>
 using std::string;
@@ -16,7 +17,10 @@ Repository::Repository(){ // 构造函数，主要是实现文件夹
    COMMITS_DIR = Utils::join(GIT_DIR, "commits");
    BRANCHES_DIR = Utils::join(GIT_DIR, "branches");
    HEAD_PATH = Utils::join(GIT_DIR, "head");
+   REMOTE_DIR = Utils::join(GIT_DIR, "remote");
 }
+
+
 
 void Repository::init() {
    // 判断是否已经存在
@@ -196,12 +200,47 @@ void Repository::status() {
    }
    cout << endl;
 
+   std::set<string> not_staged;
+   std::set<string> untrack;
+   Commit curr_cm = getHeadCommit();
+   std::map<string, string> work_hash;
+   for (auto file : Utils::plainFilenamesIn(getWorkingDir())) {
+      work_hash[file] = Blob(file).Hash;
+      if (!curr_cm.check_map().count(file) && !index.added.count(file)) {
+         untrack.insert(file);
+      }
+      if (index.removed.count(file)) {
+         untrack.insert(file);
+      }
+   }
+   for (auto file_pair : curr_cm.check_map()) {
+      if (!work_hash.count(file_pair.first) && !index.removed.count(file_pair.first)) {
+         not_staged.insert(file_pair.first + " (deleted)");
+      }
+      else if (work_hash.count(file_pair.first) && (work_hash[file_pair.first] != file_pair.second) && !index.added.count(file_pair.first)) {
+         not_staged.insert(file_pair.first + " (modified)");
+      } 
+   }
+   for (auto file_pair : index.added) {
+      if (!work_hash.count(file_pair.first)) {
+         not_staged.insert(file_pair.first + " (deleted)");
+      }
+      else if (work_hash[file_pair.first] != file_pair.second) {
+         not_staged.insert(file_pair.first + " (modified)");
+      }
+   }
+
+
    cout << "=== Modifications Not Staged For Commit ===" << endl;
-   // TODO
+   for (auto file : not_staged) {
+      cout << file << endl;
+   }
    cout << endl;
 
    cout << "=== Untracked Files ===" << endl;
-   // TODO
+   for (auto file : untrack) {
+      cout << file << endl;
+   }
    cout << endl;
 }
 
@@ -210,8 +249,8 @@ void Repository::checkoutFile(const string& filename) {
 }
 
 void Repository::checkoutBranch(const string& branchname) {
-   auto ite_branch = Utils::plainFilenamesIn(getBranchesDir());
-   if (std::find(ite_branch.begin(), ite_branch.end(), branchname) == ite_branch.end()) {
+   string branch_path = Utils::join(getBranchesDir(), branchname);
+   if (!Utils::isFile(branch_path)) {
       Utils::exitWithMessage("No such branch exists.");
    }
    if (getHeadbranch() == branchname) {
@@ -227,7 +266,6 @@ void Repository::checkoutBranch(const string& branchname) {
          Utils::exitWithMessage("There is an untracked file in the way; delete it, or add and commit it first.");
       }
    }
-   // readme讲的有点难绷这里的逻辑
 
    // 真正开始处理
    Index index = Index();
@@ -424,6 +462,108 @@ void Repository::merge(const string& branchname) {
    this->merge_commit(oss.str(), other_cm.Hash);
 }
 
+void Repository::addRemote(const string& remotename, const string& remote_dir) {
+   string target_remote = Utils::join(getRemotePath(), remotename);
+   if (Utils::isFile(target_remote)) {
+      Utils::exitWithMessage("A remote with that name already exists.");
+   }
+   else {
+      std::filesystem::path p(remote_dir);
+      Utils::writeContents(target_remote, p.make_preferred().string());
+   }
+}
+void Repository::rmRemote(const string& remotename) {
+   string target_remote = Utils::join(getRemotePath(), remotename);
+   if (!Utils::isFile(target_remote)) {
+      Utils::exitWithMessage("A remote with that name does not exist.");
+   }
+   else {
+      remove(target_remote.c_str());
+   }
+}
+
+std::string cleanString(std::string s) { // 似乎是需要的
+    s.erase(0, s.find_first_not_of(" \n\r\t"));
+    s.erase(s.find_last_not_of(" \n\r\t") + 1);
+    return s;
+}
+
+void Repository::push(const string& remotename, const string& rm_branch) {
+   string target_remote = Utils::join(getRemotePath(), remotename);
+   string remote_root = cleanString(Utils::readContentsAsString(target_remote));
+
+   if (!Utils::isDirectory(remote_root)) Utils::exitWithMessage("Remote directory not found.");
+
+   string rtarget_branch = Utils::join(getBranchesDir(remote_root), rm_branch);
+
+   std::vector<string> target_history; // 记录 target_branch 对应的 commits，从新到老（暂时不考虑two father，懒得搞）
+   string curr_hash = getBranchhash(rm_branch);
+   
+   // 遍历本地历史
+   while (curr_hash != "") {
+      target_history.push_back(curr_hash);
+      Commit cm = Commit::commit_deserial(curr_hash);
+      curr_hash = cm.father_hash; 
+   }
+   
+   if (Utils::isFile(rtarget_branch)) {
+      string remote_head = cleanString(Utils::readContentsAsString(rtarget_branch));
+      if (std::find(target_history.begin(), target_history.end(), remote_head) == target_history.end()) {
+         Utils::exitWithMessage("Please pull down remote changes before pushing.");
+      }
+   }
+
+   for (const string& Hash : target_history) {
+      copyObject(Hash, getCommitsDir(), getCommitsDir(remote_root));
+      Commit curr_cm = Commit::commit_deserial(Hash);
+      for (auto file_pair : curr_cm.check_map()) {
+         copyObject(file_pair.second, getBlobsDir(), getBlobsDir(remote_root));
+      }
+   }
+
+   Utils::writeContents(rtarget_branch, getBranchhash(rm_branch));
+}
+
+void Repository::fetch(const string& remotename, const string& rm_branch) {
+   string target_remote = Utils::join(getRemotePath(), remotename);
+   string remote_root = cleanString(Utils::readContentsAsString(target_remote));
+
+   string rtarget_branch = Utils::join(getBranchesDir(remote_root), rm_branch);
+
+   if (!Utils::isDirectory(remote_root)) {
+      Utils::exitWithMessage("Remote directory not found.");
+   }
+   if (!Utils::isFile(rtarget_branch)) {
+      Utils::exitWithMessage("That remote does not have that branch.");
+   }
+   
+   string new_branch_name = remotename + '/' + rm_branch;
+   string new_head = cleanString(Utils::readContentsAsString(rtarget_branch));
+   Utils::writeContents(Utils::join(getBranchesDir(), new_branch_name), new_head);
+
+   // Commit rCurr_cm = Commit::commit_deserial(new_head); 本来这么写然后爆了，因为还没copy过来呢就解析了
+   string curr_fetch = new_head;
+
+   while (curr_fetch != "") {
+      if (Utils::isFile(Utils::join(getCommitsDir(), curr_fetch))) {
+          break; 
+      }
+      copyObject(curr_fetch, getCommitsDir(remote_root), getCommitsDir()); 
+      Commit cm = Commit::commit_deserial(curr_fetch);
+
+      for (auto const& pair : cm.check_map()) {
+         copyObject(pair.second, getBlobsDir(remote_root), getBlobsDir());
+      }
+      curr_fetch = cm.father_hash;
+   }
+}
+
+void Repository::pull(const string& remotename, const string& rm_branch) {
+   fetch(remotename, rm_branch);
+   string new_branch_name = remotename + '/' + rm_branch;
+   merge(new_branch_name);
+}
+
 // To be continued......
 
 
@@ -436,26 +576,29 @@ string Repository::getWorkingDir() {
    string BASE_DIR = getcwd(cwd, sizeof(cwd));
    return BASE_DIR;
 }
-string Repository::getGitliteDir() {
-   string GitlitDir = Utils::join(getWorkingDir(), ".gitlite");
+string Repository::getGitliteDir(string root) { // 注意 root 本身就有 gitlite 了
+   string GitlitDir = (root == "") ? (Utils::join(getWorkingDir(), ".gitlite")) : root;
    return GitlitDir;
 }
-string Repository::getCommitsDir() {
-   return Utils::join(getGitliteDir(), "commits");
+string Repository::getCommitsDir(string root) {
+   return Utils::join(getGitliteDir(root), "commits");
 }
-string Repository::getBlobsDir() {
-   return Utils::join(getGitliteDir(), "blobs");
+string Repository::getBlobsDir(string root) {
+   return Utils::join(getGitliteDir(root), "blobs");
 }
-string Repository::getBranchesDir() {
-   return Utils::join(getGitliteDir(), "branches");
+string Repository::getBranchesDir(string root) {
+   return Utils::join(getGitliteDir(root), "branches");
 }
-string Repository::getIndexDir() {
-   return Utils::join(getGitliteDir(), "index");
+string Repository::getIndexDir(string root) {
+   return Utils::join(getGitliteDir(root), "index");
 }
-string Repository::getHeadsPath() {
-   return Utils::join(getGitliteDir(), "head");
+string Repository::getHeadsPath(string root) {
+   return Utils::join(getGitliteDir(root), "head");
 }
-// 以后就直接调用这些函数，千万不要手动输入字符串路径...
+string Repository::getRemotePath(string root) {
+   return Utils::join(getGitliteDir(root), "remote");
+}
+
 string Repository::getHeadbranch() {
    string head_path = getHeadsPath();
    return Utils::readContentsAsString(head_path);
@@ -479,4 +622,12 @@ Commit Repository::getBranchCommit(const string & branchname) {
 void Repository::rewriteHead(const string& branchname) {
    string head_path = getHeadsPath();
    Utils::writeContents(head_path, branchname);
+}
+
+void Repository::copyObject(string hash, string src, string dest) {
+   string src_path = Utils::join(src, hash);
+   string dest_path = Utils::join(dest, hash);
+   if (Utils::isFile(dest_path)) return;
+   auto content = Utils::readContents(src_path);
+   Utils::writeContents(dest_path, content);
 }
