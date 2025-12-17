@@ -16,7 +16,6 @@ Commit::Commit(string father, string mess):father_hash(father), message(mess), s
    else {
       time_stamp = std::time(nullptr);
       file_blob_map = commit_deserial(father).file_blob_map;
-      // TODO: 根据 staging area 更新 file_blob_map
    }
 }
 
@@ -28,16 +27,6 @@ void Commit::save_commit(){
    std::vector<unsigned char> serial_cm = commit_serial(*this);
    Hash = Utils::sha1(serial_cm);
    string commit_path = Utils::join(Repository::getCommitsDir(), Hash);
-   Utils::writeContents(commit_path, serial_cm);
-   string head = Repository::getHeadbranch();
-   string target_path = Utils::join(Repository::getBranchesDir(), head);
-   Utils::writeContents(target_path, Hash);
-}
-
-void Commit::save_commit(const string& rcommit_path){
-   std::vector<unsigned char> serial_cm = commit_serial(*this);
-   Hash = Utils::sha1(serial_cm);
-   string commit_path = Utils::join(rcommit_path, Hash);
    Utils::writeContents(commit_path, serial_cm);
    string head = Repository::getHeadbranch();
    string target_path = Utils::join(Repository::getBranchesDir(), head);

@@ -541,7 +541,7 @@ void Repository::fetch(const string& remotename, const string& rm_branch) {
    string new_head = cleanString(Utils::readContentsAsString(rtarget_branch));
    Utils::writeContents(Utils::join(getBranchesDir(), new_branch_name), new_head);
 
-   // Commit rCurr_cm = Commit::commit_deserial(new_head); 本来这么写然后爆了，因为还没copy过来呢就解析了
+   // Commit rCurr_cm = Commit::commit_deserial(new_head); 这么写是错误的，因为还没copy过来呢就解析了
    string curr_fetch = new_head;
 
    while (curr_fetch != "") {
@@ -563,10 +563,6 @@ void Repository::pull(const string& remotename, const string& rm_branch) {
    string new_branch_name = remotename + '/' + rm_branch;
    merge(new_branch_name);
 }
-
-// To be continued......
-
-
 
 
 

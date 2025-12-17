@@ -1,0 +1,3 @@
+/home/xflops/work_area/gitlite/build/CMakeFiles/gitlite.dir
+/home/xflops/work_area/gitlite/build/CMakeFiles/edit_cache.dir
+/home/xflops/work_area/gitlite/build/CMakeFiles/rebuild_cache.dir
